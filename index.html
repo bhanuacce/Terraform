@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad Words Highlighter</title>
+    <style>
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bad Words Highlighter</h1>
+    <textarea id="inputText" rows="10" cols="50" placeholder="Type your text here..."></textarea><br>
+    <button id="submitButton">Submit</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('submitButton').addEventListener('click', async () => {
+            const text = document.getElementById('inputText').value;
+            const response = await fetch('/highlight', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text }),
+            });
+
+            const data = await response.json();
+            document.getElementById('output').innerHTML = data.highlighted_text;
+        });
+    </script>
+</body>
+</html>
